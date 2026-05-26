@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>341 Burger - Home Delivery</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bg-color: #0c0c0e;
+            --card-bg: #16161a;
+            --accent-red: #e63946;
+            --accent-green: #25d366;
+            --text-main: #ffffff;
+            --text-muted: #9e9ea7;
+            --price-color: #ffb703;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 240px;
+        }
+
+        header {
+            background: linear-gradient(180deg, rgba(230,57,70,0.25) 0%, rgba(12,12,14,1) 90%), url('https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            padding: 50px 20px 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo-badge {
+            display: inline-block;
+            border: 3px solid var(--accent-red);
+            border-radius: 50%;
+            padding: 15px 22px;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--accent-red);
+            background-color: rgba(0,0,0,0.85);
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(230,57,70,0.5);
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .hero-title {
+            font-size: 34px;
+            font-weight: 800;
+            margin: 15px 0 5px 0;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 420px;
+            margin: 0 auto 20px auto;
+        }
+
+        .nav-categories {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            background-color: #0c0c0e;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid #2d2d35;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .menu-section {
+            scroll-margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 35px 0 20px 0;
+            padding-left: 12px;
+            border-left: 5px solid var(--accent-red);
+            text-transform: uppercase;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            display: flex;
+            gap: 18px;
+            border: 1px solid #1f1f24;
+        }
+
+        .product-img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 10px;
+            background-color: #25252b;
+            flex-shrink: 0;
+        }
+
+        .product-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .product-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .size-selector-container {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .size-radio {
+            display: none;
+        }
+
+        .size-label {
+            background-color: #222227;
+            color: var(--text-muted);
+            border: 1px solid #33333a;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-radio:checked + .size-label {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+            color: white;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--price-color);
+        }
+
+        .order-btn {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 195px;
+            right: 25px;
+            background-color: var(--accent-green);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+            z-index: 2100;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            padding: 16px 20px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 3px solid var(--accent-red);
+            box-shadow: 0 -6px 20px rgba(0,0,0,0.8);
+            z-index: 2000;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .bairro-select-container {
+            width: 100%;
+        }
+
+        .bairro-select {
+            width: 100%;
+            background-color: #222227;
+            color: white;
+            border: 1px solid #33333a;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .cart-info {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .cart-total-highlight {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--price-color);
+        }
+
+        .cart-send-btn {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container"><div class="logo-badge">341B</div></div>
+        <div><span class="status-badge">Aberto</span></div>
+        <h1 class="hero-title">Bateu aquela fome?</h1>
+        <p class="hero-subtitle">Os melhores lanches, porções artesanais e bebidas trincando a um clique de você.</p>
+    </header>
+
+    <nav class="nav-categories">
+        <button class="cat-btn active" onclick="scrollToSection('originals')">The Originals</button>
+        <button class="cat-btn" onclick="scrollToSection('premium')">Premium Burgers</button>
+        <button class="cat-btn" onclick="scrollToSection('cheeseburgers')">Cheeseburgers</button>
+        <button class="cat-btn" onclick="scrollToSection('341section')">341 Especiais</button>
+        <button class="cat-btn" onclick="scrollToSection('vegetarianos')">Vegetarianos</button>
+        <button class="cat-btn" onclick="scrollToSection('porcoes')">Porções</button>
+        <button class="cat-btn" onclick="scrollToSection('bebidas')">Bebidas</button>
+    </nav>
+
+    <div class="container">
+
+        <!-- THE ORIGINALS -->
+        <div id="originals" class="menu-section">
+            <h2 class="section-title">The Originals</h2>
+            
+            <!-- CARNE -->
+            <div class="product-card">
+                <img src="img/frango.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Carne</div>
+                        <div class="product-desc">Burger com 130g de carne Angus, queijo cheddar, tomate, cebola roxa e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-carne" id="carne-simples" class="size-radio" checked onclick="updateCardPrice(this, 25.00)">
+                            <label for="carne-simples" class="size-label">Simples (R$ 25,00)</label>
+                            
+                            <input type="radio" name="size-carne" id="carne-duplo" class="size-radio" onclick="updateCardPrice(this, 38.00)">
+                            <label for="carne-duplo" class="size-label">Duplo (R$ 38,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-carne">R$ 25,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Carne', 'size-carne')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALABRESA -->
+            <div class="product-card">
+                <img src="img/cheese.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Calabresa</div>
+                        <div class="product-desc">Burger com 120g de calabresa, tomate, cebola roxa, queijo cheddar e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-calabresa" id="calabresa-simples" class="size-radio" checked onclick="updateCardPrice(this, 23.00)">
+                            <label for="calabresa-simples" class="size-label">Simples (R$ 23,00)</label>
+                            
+                            <input type="radio" name="size-calabresa" id="calabresa-duplo" class="size-radio" onclick="updateCardPrice(this, 35.00)">
+                            <label for="calabresa-duplo" class="size-label">Duplo (R$ 35,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-calabresa">R$ 23,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Calabresa', 'size-calabresa')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRANGO -->
+            <div class="product-card">
+                <img src="img/burguer.jpg"  class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Frango</div>
+                        <div class="product-desc">Burger com 120g de carne(peito de frango temperada com bacon) queijo mussarela, tomate, cebola roxa e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-frango" id="frango-simples" class="size-radio" checked onclick="updateCardPrice(this, 23.00)">
+                            <label for="frango-simples" class="size-label">Simples (R$ 23,00)</label>
+                            
+                            <input type="radio" name="size-frango" id="frango-duplo" class="size-radio" onclick="updateCardPrice(this, 35.00)">
+                            <label for="frango-duplo" class="size-label">Duplo (R$ 35,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-frango">R$ 23,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Frango', 'size-frango')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREMIUM BURGERS -->
+        <div id="premium" class="menu-section">
+            <h2 class="section-title">Premium Burgers</h2>
+            
+            <!-- COSTELA -->
+            <div class="product-card">
+                <img src="img/calabresa.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Costela</div>
+                        <div class="product-desc">Burger com 140g costela bovina temperada, queijo mussarela, tomate cebola roxa e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-costela" id="costela-simples" class="size-radio" checked onclick="updateCardPrice(this, 28.00)">
+                            <label for="costela-simples" class="size-label">Simples (R$ 28,00)</label>
+                            
+                            <input type="radio" name="size-costela" id="costela-duplo" class="size-radio" onclick="updateCardPrice(this, 42.00)">
+                            <label for="costela-duplo" class="size-label">Duplo (R$ 42,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-costela">R$ 28,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Costela Premium', 'size-costela')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BBQ -->
+            <div class="product-card">
+                <img src="img/food.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">BBQ</div>
+                        <div class="product-desc">Burger com 140g de costelinha suína temperada, dois queijos mussarela, molho barbecue, tomate, cebola roxa e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-bbq" id="bbq-simples" class="size-radio" checked onclick="updateCardPrice(this, 28.00)">
+                            <label for="bbq-simples" class="size-label">Simples (R$ 28,00)</label>
+                            
+                            <input type="radio" name="size-bbq" id="bbq-duplo" class="size-radio" onclick="updateCardPrice(this, 42.00)">
+                            <label for="bbq-duplo" class="size-label">Duplo (R$ 42,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-bbq">R$ 28,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('BBQ Premium', 'size-bbq')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PEPPER CRISPY -->
+            <div class="product-card">
+                <img src="img/carne.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Pepper Crispy</div>
+                        <div class="product-desc">Burger com 140g de costela bovina temperada, dois queijos mussarela, cebola crispy e maionese especial. Acompanha geleia de pimenta ou molho picante.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-pepper" id="pepper-simples" class="size-radio" checked onclick="updateCardPrice(this, 33.00)">
+                            <label for="pepper-simples" class="size-label">Simples (R$ 33,00)</label>
+                            
+                            <input type="radio" name="size-pepper" id="pepper-duplo" class="size-radio" onclick="updateCardPrice(this, 48.00)">
+                            <label for="pepper-duplo" class="size-label">Duplo (R$ 48,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-pepper">R$ 33,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Pepper Crispy', 'size-pepper')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHEESEBURGERS -->
+        <div id="cheeseburgers" class="menu-section">
+            <h2 class="section-title">Cheeseburgers</h2>
+            
+            <!-- FRANGO CHEESE -->
+            <div class="product-card">
+                <img src="img/frango.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Frango Cheeseburger</div>
+                        <div class="product-desc">Burger com 80g de carne (peito de frango temperado com bacon), queijo mussarela, molho barbecue e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-cfrango" id="cfrango-simples" class="size-radio" checked onclick="updateCardPrice(this, 15.00)">
+                            <label for="cfrango-simples" class="size-label">Simples (R$ 15,00)</label>
+                            
+                            <input type="radio" name="size-cfrango" id="cfrango-duplo" class="size-radio" onclick="updateCardPrice(this, 27.00)">
+                            <label for="cfrango-duplo" class="size-label">Duplo (R$ 27,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-cfrango">R$ 15,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Cheeseburger Frango', 'size-cfrango')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARNE CHEESE -->
+            <div class="product-card">
+                <img src="img/cheese.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Carne Cheeseburger</div>
+                        <div class="product-desc">Burger com 80g de carne Angus, queijo cheddar, molho ketchup e mostarda e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-ccarne" id="ccarne-simples" class="size-radio" checked onclick="updateCardPrice(this, 18.00)">
+                            <label for="ccarne-simples" class="size-label">Simples (R$ 18,00)</label>
+                            
+                            <input type="radio" name="size-ccarne" id="ccarne-duplo" class="size-radio" onclick="updateCardPrice(this, 27.00)">
+                            <label for="ccarne-duplo" class="size-label">Duplo (R$ 27,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-ccarne">R$ 18,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Cheeseburger Carne', 'size-ccarne')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COSTELA CHEESE -->
+            <div class="product-card">
+                <img src="img/burguer.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Costela Cheeseburger</div>
+                        <div class="product-desc">Burger com 80g de costela bovina temperada, molho barbecue, queijo mussarela e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-ccostela" id="ccostela-simples" class="size-radio" checked onclick="updateCardPrice(this, 15.00)">
+                            <label for="ccostela-simples" class="size-label">Simples (R$ 15,00)</label>
+                            
+                            <input type="radio" name="size-ccostela" id="ccostela-duplo" class="size-radio" onclick="updateCardPrice(this, 27.00)">
+                            <label for="ccostela-duplo" class="size-label">Duplo (R$ 27,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-ccostela">R$ 15,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Cheeseburger Costela', 'size-ccostela')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHEESEBÚRGUER 341 -->
+            <div class="product-card">
+                <img src="img/carne.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Cheesebúrguer 341</div>
+                        <div class="product-desc">Burger com 80g (opcionais de carne, costela ou frango), queijo (opcional de cheddar ou mussarela), alface americana, tomate, pickles e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-c341" id="c341-simples" class="size-radio" checked onclick="updateCardPrice(this, 20.00)">
+                            <label for="c341-simples" class="size-label">Simples (R$ 20,00)</label>
+                            
+                            <input type="radio" name="size-c341" id="c341-duplo" class="size-radio" onclick="updateCardPrice(this, 30.00)">
+                            <label for="c341-duplo" class="size-label">Duplo (R$ 30,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-c341">R$ 20,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('Cheesebúrguer 341', 'size-c341')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORIA 341 -->
+        <div id="341section" class="menu-section">
+            <h2 class="section-title">341 Especiais</h2>
+            
+            <!-- 341 CHEDDAR -->
+            <div class="product-card">
+                <img src="img/cheese.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">341 Cheddar</div>
+                        <div class="product-desc">Burger com 130g de carne Angus, dois queijos cheddar, cebola caramelizada e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-341ched" id="341ched-simples" class="size-radio" checked onclick="updateCardPrice(this, 25.00)">
+                            <label for="341ched-simples" class="size-label">Simples (R$ 25,00)</label>
+                            
+                            <input type="radio" name="size-341ched" id="341ched-duplo" class="size-radio" onclick="updateCardPrice(this, 38.00)">
+                            <label for="341ched-duplo" class="size-label">Duplo (R$ 38,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-341ched">R$ 25,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('341 Cheddar', 'size-341ched')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 341 CRISPY CHICKEN -->
+            <div class="product-card">
+                <img src="img/frango.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">341 Crispy Chicken</div>
+                        <div class="product-desc"> Burger com 120g empanado (peito de frango temperado com bacon), dois queijos mussarela, tomate, alface americana, picles e maionese especial.</div>
+                        <div class="size-selector-container">
+                            <input type="radio" name="size-341crisp" id="341crisp-simples" class="size-radio" checked onclick="updateCardPrice(this, 25.00)">
+                            <label for="341crisp-simples" class="size-label">Simples (R$ 25,00)</label>
+                            
+                            <input type="radio" name="size-341crisp" id="341crisp-duplo" class="size-radio" onclick="updateCardPrice(this, 38.00)">
+                            <label for="341crisp-duplo" class="size-label">Duplo (R$ 38,00)</label>
+                        </div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price" id="price-341crisp">R$ 25,00</span>
+                        <button class="order-btn" onclick="addSelectedToCart('341 Crispy Chicken', 'size-341crisp')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VEGETARIANOS -->
+        <div id="vegetarianos" class="menu-section">
+            <h2 class="section-title">Vegetarianos</h2>
+             <div class="product-card">
+                <img src="img/grao.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name"> Batata Doce</div>
+                        <div class="product-desc">Hambúrguer de batata doce (100g), alface americana, tomate, cebola roxa, dois queijos muçarela, maionese especial e pão australiano. (Molhos opcionais: pesto, pimenta ou tahine).</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 20,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('Batata doce', 20.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+             <div class="product-card">
+                <img src="img/grao.jpg"
+                class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Grão de Bico</div>
+                        <div class="product-desc">Burger com 100g, alface americana, tomate, cebola roxa, dois queijos mussarela e maionese especial</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 20,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('Veggie Grão de Bico', 20.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+             <div class="product-card">
+                <img src="img/Lentilha.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Lentilha</div>
+                        <div class="product-desc">Hambúrguer de lentilha (100g), alface americana, tomate, cebola roxa, dois queijos muçarela, maionese especial e pão australiano. (Molhos opcionais: pesto, pimenta ou tahine).</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 20,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('Veggie Grão de Bico', 20.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <img src="img/soja.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name"> Soja</div>
+                        <div class="product-desc">Burger com 100g, alface americana, tomate, cebola roxa, dois queijos mussarela e maionese especial</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 20,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('soja', 20.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="img/lentilha.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Cogumelo</div>
+                        <div class="product-desc">Burger com 120g empanado (quibe de shimeji temperado com bacon), queijo mussarela, tomate, alface americana, picles e maionese especial.</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 25,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('Veggie Cogumelo', 25.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PORÇÕES -->
+        <div id="porcoes" class="menu-section">
+            <h2 class="section-title">Porções</h2>
+            
+            <div class="product-card">
+                <img src="img/batata.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Batata Frita 200g</div>
+                        <div class="product-desc">Porção individual de batata frita super crocante e quentinha.</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 12,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('Batata Frita 200g', 12.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="img/batat.jpg" class="product-img">
+                <div class="product-info">
+                    <div>
+                        <div class="product-name">Batata Frita 400g</div>
+                        <div class="product-desc">Porção grande perfeita para compartilhar, acompanha maionese da casa.</div>
+                    </div>
+                    <div class="product-meta">
+                        <span class="product-price">R$ 28,00</span>
+                        <button class="order-btn" onclick="addSimpleToCart('Batata Frita 400g', 28.00)">Pedir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BEBIDAS -->
+    <!-- ========================= -->
+<!-- BEBIDAS -->
+<!-- ========================= -->
+
+<div id="bebidas" class="menu-section">
+    <h2 class="section-title">Bebidas</h2>
+
+    <!-- REFRIGERANTES -->
+    <h3 style="margin:20px 0 15px 5px;color:#ffb703;">🥤 Refrigerantes</h3>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1629203851122-3726ecdf080e?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Refri Lata</div>
+                <div class="product-desc">Coca-Cola, Guaraná, Fanta ou Sprite (350ml) geladinho.</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 8,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Refri Lata', 8.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1581636625402-29b2a704ef13?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Refri 600ml</div>
+                <div class="product-desc">Coca-Cola, Guaraná ou Fanta (600ml) trincando.</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 10,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Refri 600ml', 10.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCOS -->
+    <h3 style="margin:30px 0 15px 5px;color:#ffb703;">🧃 Sucos</h3>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Suco Dell Valle Lata</div>
+                <div class="product-desc">Sabores variados (290ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 8,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Suco Dell Valle Lata', 8.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="img/suco.jpg" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Suco de Laranja</div>
+                <div class="product-desc">Natural e refrescante (400ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 10,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Suco de Laranja 400ml', 10.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÁGUAS -->
+    <h3 style="margin:30px 0 15px 5px;color:#ffb703;">💧 Águas</h3>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Água Mineral</div>
+                <div class="product-desc">Água mineral sem gás (500ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 4,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Água Mineral 500ml', 4.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ESPECIAIS -->
+    <h3 style="margin:30px 0 15px 5px;color:#ffb703;">🍹 Especiais</h3>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Caldo de Cana</div>
+                <div class="product-desc">Caldo de cana natural fresquinho (400ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 11,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Caldo de Cana 400ml', 11.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CERVEJAS -->
+    <h3 style="margin:30px 0 15px 5px;color:#ffb703;">🍺 Cervejas</h3>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Chopp</div>
+                <div class="product-desc">Chopp gelado (400ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 12,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Chopp 400ml', 12.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Spaten Long Neck</div>
+                <div class="product-desc">Cerveja Spaten (330ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 11,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Spaten Long Neck', 11.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Budweiser Long Neck</div>
+                <div class="product-desc">Budweiser (330ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 11,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Budweiser Long Neck', 11.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Sol Long Neck</div>
+                <div class="product-desc">Cerveja Sol (330ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 11,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Sol Long Neck', 11.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Eisenbahn Long Neck</div>
+                <div class="product-desc">Cerveja Eisenbahn (330ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 11,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Eisenbahn Long Neck', 11.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=400&q=80" class="product-img">
+        <div class="product-info">
+            <div>
+                <div class="product-name">Heineken Long Neck</div>
+                <div class="product-desc">Heineken gelada (330ml).</div>
+            </div>
+            <div class="product-meta">
+                <span class="product-price">R$ 13,00</span>
+                <button class="order-btn" onclick="addSimpleToCart('Heineken Long Neck', 13.00)">Pedir</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <footer class="footer">
+        <p>© 2026 341 Burger - Joinville / SC</p>
+    </footer>
+
+    <!-- Barra do carrinho inteligente -->
+    <div class="cart-bar" id="cartBar">
+        <div class="bairro-select-container">
+            <select id="bairroSelect" class="bairro-select" onchange="updateCartDisplay()">
+                <option value="" data-price="0">-- Selecione seu Bairro (Entrega) --</option>
+                <option value="Adhemar garcia" data-price="17">Adhemar garcia - R$ 17,00</option>
+                <option value="America" data-price="15">America - R$ 15,00</option>
+                <option value="Anita Garibaldi" data-price="12">Anita Garibaldi - R$ 12,00</option>
+                <option value="Araquari ate Escola Agricola" data-price="35">Araquari até Escola Agricola - R$ 35,00</option>
+                <option value="Araquari Centro" data-price="40">Araquari Centro - R$ 40,00</option>
+                <option value="Atiradores" data-price="14">Atiradores - R$ 14,00</option>
+                <option value="Aventureiro" data-price="22">Aventureiro - R$ 22,00</option>
+                <option value="Boa vista" data-price="15">Boa vista - R$ 15,00</option>
+                <option value="Boehmerwald/Escolinha" data-price="18">Boehmerwald/Escolinha - R$ 18,00</option>
+                <option value="Bom retiro" data-price="20">Bom retiro - R$ 20,00</option>
+                <option value="Bucarein" data-price="12">Bucarein - R$ 12,00</option>
+                <option value="Centro" data-price="14">Centro - R$ 14,00</option>
+                <option value="Comasa" data-price="18">Comasa - R$ 18,00</option>
+                <option value="Costa e silva" data-price="20">Costa e silva - R$ 20,00</option>
+                <option value="Cubatão" data-price="30">Cubatão - R$ 30,00</option>
+                <option value="Distrito Industrial" data-price="24">Distrito Industrial - R$ 24,00</option>
+                <option value="Espinheiros" data-price="20">Espinheiros - R$ 20,00</option>
+                <option value="Fatima" data-price="14">Fatima - R$ 14,00</option>
+                <option value="Floresta" data-price="12">Floresta - R$ 12,00</option>
+                <option value="Glória" data-price="16">Glória - R$ 16,00</option>
+                <option value="Guanabara" data-price="12">Guanabara - R$ 12,00</option>
+                <option value="Iririu" data-price="18">Iririu - R$ 18,00</option>
+                <option value="Jardim Iririu" data-price="20">Jardim Iririu - R$ 20,00</option>
+                <option value="Itaum" data-price="15">Itaum - R$ 15,00</option>
+                <option value="Jardim Paraíso" data-price="29">Jardim Paraíso - R$ 29,00</option>
+                <option value="Jardim Sofia" data-price="24">Jardim Sofia - R$ 24,00</option>
+                <option value="Jarivatuba" data-price="17">Jarivatuba - R$ 17,00</option>
+                <option value="João Costa" data-price="17">João Costa - R$ 17,00</option>
+                <option value="Jativoca" data-price="16">Jativoca - R$ 16,00</option>
+                <option value="Morro do meio" data-price="16">Morro do meio - R$ 16,00</option>
+                <option value="Nova Brasilia" data-price="15">Nova Brasilia - R$ 15,00</option>
+                <option value="Parque Guarani" data-price="20">Parque Guarani - R$ 20,00</option>
+                <option value="Panagua" data-price="20">Panagua - R$ 20,00</option>
+                <option value="Petropolis" data-price="16">Petropolis - R$ 16,00</option>
+                <option value="Pirabeiraba Centro" data-price="29">Pirabeiraba Centro - R$ 29,00</option>
+                <option value="Profipo" data-price="17">Profipo - R$ 17,00</option>
+                <option value="Saguaçu" data-price="16">Saguaçu - R$ 16,00</option>
+                <option value="Santa Catarina" data-price="17">Santa Catarina - R$ 17,00</option>
+                <option value="Santo Antonio" data-price="18">Santo Antonio - R$ 18,00</option>
+                <option value="São Marcos" data-price="15">São Marcos - R$ 15,00</option>
+                <option value="Ulisses Guimarães" data-price="18">Ulisses Guimarães - R$ 18,00</option>
+                <option value="Vila nova (área urbana)" data-price="20">Vila nova (área urbana) - R$ 20,00</option>
+                <option value="ZONA INDUST.NORTE" data-price="24">ZONA INDUST.NORTE - R$ 24,00</option>
+            </select>
+        </div>
+        <div class="cart-row">
+            <div class="cart-info" id="cartInfo">0 itens - Lanches: R$ 0,00</div>
+            <div class="cart-total-highlight" id="cartTotalHighlight">Total: R$ 0,00</div>
+            <button class="cart-send-btn" onclick="sendToWhatsapp()">Enviar p/ WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Botão Whatsapp Direto -->
+    <a id="waFloatBtn" href="https://wa.me/554738010520" class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 32 32">
+            <path d="M16 2a13 13 0 0 0-11.2 19.6L3 29l7.6-2A13 13 0 1 0 16 2zm0 24a11 11 0 0 1-5.6-1.5l-.4-.2-4.5 1.2 1.2-4.4-.3-.4A11 11 0 1 1 16 26z" fill="#fff"/>
+            <path d="M21.7 18.6c-.3-.2-1.8-1-2.1-1.1-.3-.1-.5-.1-.7.2-.2.3-.8 1.1-1 1.3-.2.2-.4.2-.7.1a9.2 9.2 0 0 1-2.7-1.7 10.2 10.2 0 0 1-1.9-2.3c-.2-.3 0-.5.1-.6l.5-.6.3-.4c.1-.2 0-.4 0-.5l-.7-1.7c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4A2.8 2.8 0 0 0 11 14c0 1.2.5 2.4 1.3 3.4a11.3 11.3 0 0 0 4.8 4.2c.7.3 1.3.4 1.8.3.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.4z" fill="#fff"/>
+        </svg>
+    </a>
+
+    <script>
+        let cart = [];
+        let itemsTotal = 0;
+
+        // INSIRA SEU NÚMERO DE WHATSAPP COMPLETO AQUI ABAIXO
+        const SEU_WHATSAPP = "554738010520";
+
+        document.getElementById('waFloatBtn').href = "https://wa.me/" + SEU_WHATSAPP;
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            if(event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        // Atualiza dinamicamente o texto do preço no card do produto quando o usuário alterna Simples/Duplo
+        function updateCardPrice(radioElement, price) {
+            const card = radioElement.closest('.product-card');
+            const priceSpan = card.querySelector('.product-price');
+            if (priceSpan) {
+                priceSpan.innerText = "R$ " + price.toFixed(2).replace('.', ',');
+            }
+        }
+
+        // Adiciona itens simples ao carrinho (que não possuem variação de tamanho)
+        function addSimpleToCart(name, price) {
+            cart.push({ name: name, price: price });
+            itemsTotal += price;
+            showCartBar();
+            updateCartDisplay();
+        }
+
+        // Adiciona itens que possuem a opção Simples ou Duplo selecionada
+        function addSelectedToCart(baseName, radioGroupName) {
+            const radios = document.getElementsByName(radioGroupName);
+            let selectedPrice = 0;
+            let selectedSize = "Simples";
+            
+            for (let radio of radios) {
+                if (radio.checked) {
+                    // Descobre o preço com base no ID ou passando um padrão mapeado
+                    const label = document.querySelector(`label[for="${radio.id}"]`);
+                    if (label.innerText.includes("Duplo")) {
+                        selectedSize = "Duplo";
+                    }
+                    
+                    // Extrai o preço correto associado ao ID clicado
+                    if (radio.id.includes("carne")) selectedPrice = radio.id.includes("simples") ? 25.00 : 38.00;
+                    else if (radio.id.includes("calabresa")) selectedPrice = radio.id.includes("simples") ? 23.00 : 35.00;
+                    else if (radio.id.includes("frango")) selectedPrice = radio.id.includes("simples") ? 23.00 : 35.00;
+                    else if (radio.id.includes("costela")) selectedPrice = radio.id.includes("simples") ? 28.00 : 42.00;
+                    else if (radio.id.includes("bbq")) selectedPrice = radio.id.includes("simples") ? 28.00 : 42.00;
+                    else if (radio.id.includes("pepper")) selectedPrice = radio.id.includes("simples") ? 33.00 : 48.00;
+                    else if (radio.id.includes("cfrango")) selectedPrice = radio.id.includes("simples") ? 15.00 : 27.00;
+                    else if (radio.id.includes("ccarne")) selectedPrice = radio.id.includes("simples") ? 18.00 : 27.00;
+                    else if (radio.id.includes("ccostela")) selectedPrice = radio.id.includes("simples") ? 15.00 : 27.00;
+                    else if (radio.id.includes("c341")) selectedPrice = radio.id.includes("simples") ? 20.00 : 30.00;
+                    else if (radio.id.includes("341ched")) selectedPrice = radio.id.includes("simples") ? 25.00 : 38.00;
+                    else if (radio.id.includes("341crisp")) selectedPrice = radio.id.includes("simples") ? 25.00 : 38.00;
+                }
+            }
+            
+            const fullName = `${baseName} (${selectedSize})`;
+            cart.push({ name: fullName, price: selectedPrice });
+            itemsTotal += selectedPrice;
+            
+            showCartBar();
+            updateCartDisplay();
+        }
+
+        function showCartBar() {
+            const cartBar = document.getElementById('cartBar');
+            if (cartBar) cartBar.style.display = 'flex';
+        }
+
+        function updateCartDisplay() {
+            const select = document.getElementById('bairroSelect');
+            let deliveryPrice = 0;
+            
+            if (select && select.selectedIndex > 0) {
+                deliveryPrice = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
+            }
+            
+            let finalTotal = itemsTotal + deliveryPrice;
+            
+            const cartInfo = document.getElementById('cartInfo');
+            const cartTotalHighlight = document.getElementById('cartTotalHighlight');
+            
+            if (cartInfo) {
+                cartInfo.innerText = cart.length + " item(ns) - Itens: R$ " + itemsTotal.toFixed(2).replace('.', ',');
+            }
+            if (cartTotalHighlight) {
+                cartTotalHighlight.innerText = "Total: R$ " + finalTotal.toFixed(2).replace('.', ',');
+            }
+        }
+
+        function sendToWhatsapp() {
+            if (cart.length === 0) return;
+            
+            const select = document.getElementById('bairroSelect');
+            if (!select || select.value === "") {
+                alert("Por favor, selecione o seu bairro para entrega antes de enviar o pedido!");
+                select.focus();
+                return;
+            }
+            
+            let bairroNome = select.value;
+            let deliveryPrice = parseFloat(select.options[select.selectedIndex].getAttribute('data-price'));
+            let finalTotal = itemsTotal + deliveryPrice;
+            
+            let text = "Novo Pedido - 341 Burger\n\n";
+            
+            cart.forEach((item, index) => {
+                text += (index + 1) + ". " + item.name + " - R$ " + item.price.toFixed(2).replace('.', ',') + "\n";
+            });
+            
+            text += "\n-------------------------\n";
+            text += "Bairro: " + bairroNome + "\n";
+            text += "Taxa de Entrega: R$ " + deliveryPrice.toFixed(2).replace('.', ',') + "\n";
+            text += "-------------------------\n";
+            text += "Total Geral: R$ " + finalTotal.toFixed(2).replace('.', ',');
+            
+            let url = "https://wa.me/" + SEU_WHATSAPP + "?text=" + encodeURIComponent(text);
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
